@@ -85,7 +85,7 @@ export default function ResultDisplay({ result }) {
           font-family: 'Share Tech Mono', monospace;
           font-size: 11px;
           letter-spacing: 3px;
-          color: rgba(255,255,255,0.35);
+          color: rgba(255,255,255,0.81);
           text-transform: uppercase;
           padding: 4px 10px;
           border: 1px solid rgba(255,255,255,0.1);
@@ -100,15 +100,15 @@ export default function ResultDisplay({ result }) {
           border-radius: 3px;
           border: 1px solid rgba(255,255,255,0.1);
           background: rgba(255,255,255,0.02);
-          color: rgba(255,255,255,0.3);
+          color: rgba(255,255,255,0.75);
           cursor: pointer;
           transition: all 0.2s ease;
           user-select: none;
           text-transform: uppercase;
         }
         .rd-copy-btn:hover {
-          border-color: rgba(0,245,255,0.4);
-          color: rgba(0,245,255,0.7);
+          border-color: rgba(0,245,255,0.86);
+          color: rgba(0,245,255,1.0);
           background: rgba(0,245,255,0.05);
         }
         .rd-copy-btn.copied {
@@ -151,7 +151,7 @@ export default function ResultDisplay({ result }) {
           font-family: 'Share Tech Mono', monospace;
           font-size: 9px;
           letter-spacing: 3px;
-          color: rgba(255,255,255,0.25);
+          color: rgba(255,255,255,0.67);
           text-transform: uppercase;
         }
 
@@ -168,7 +168,7 @@ export default function ResultDisplay({ result }) {
         .rd-seek-unit {
           font-family: 'Share Tech Mono', monospace;
           font-size: 11px;
-          color: rgba(255,255,255,0.25);
+          color: rgba(255,255,255,0.67);
           letter-spacing: 2px;
           margin-top: 2px;
         }
@@ -189,7 +189,7 @@ export default function ResultDisplay({ result }) {
           font-family: 'Share Tech Mono', monospace;
           font-size: 9px;
           letter-spacing: 2px;
-          color: rgba(255,255,255,0.2);
+          color: rgba(255,255,255,0.6);
           text-transform: uppercase;
           display: block;
           margin-bottom: 2px;
@@ -199,7 +199,7 @@ export default function ResultDisplay({ result }) {
           font-family: 'Share Tech Mono', monospace;
           font-size: 20px;
           font-weight: 700;
-          color: rgba(255,255,255,0.7);
+          color: rgba(255,255,255,1.0);
           letter-spacing: 1px;
         }
 
@@ -216,7 +216,7 @@ export default function ResultDisplay({ result }) {
           font-family: 'Share Tech Mono', monospace;
           font-size: 9px;
           letter-spacing: 3px;
-          color: rgba(255,255,255,0.25);
+          color: rgba(255,255,255,0.67);
           text-transform: uppercase;
           margin-bottom: 14px;
           display: block;
@@ -250,7 +250,7 @@ export default function ResultDisplay({ result }) {
           border-radius: 4px;
           border: 1px solid rgba(255,255,255,0.1);
           background: rgba(255,255,255,0.04);
-          color: rgba(255,255,255,0.7);
+          color: rgba(255,255,255,1.0);
           letter-spacing: 1px;
           transition: border-color 0.2s, box-shadow 0.2s, color 0.2s;
           white-space: nowrap;
@@ -280,13 +280,13 @@ export default function ResultDisplay({ result }) {
         .rd-seq-arrow {
           font-family: 'Share Tech Mono', monospace;
           font-size: 12px;
-          color: rgba(255,255,255,0.18);
+          color: rgba(255,255,255,0.58);
         }
 
         .rd-seq-dist {
           font-family: 'Share Tech Mono', monospace;
           font-size: 9px;
-          color: rgba(255,255,255,0.2);
+          color: rgba(255,255,255,0.6);
           letter-spacing: 0.5px;
           white-space: nowrap;
         }
@@ -303,7 +303,7 @@ export default function ResultDisplay({ result }) {
           font-family: 'Share Tech Mono', monospace;
           font-size: 9px;
           letter-spacing: 3px;
-          color: rgba(255,255,255,0.25);
+          color: rgba(255,255,255,0.67);
           text-transform: uppercase;
           margin-bottom: 14px;
           display: flex;
@@ -312,7 +312,7 @@ export default function ResultDisplay({ result }) {
         }
 
         .rd-heat-sub {
-          color: rgba(255,255,255,0.15);
+          color: rgba(255,255,255,0.52);
           font-size: 9px;
           letter-spacing: 1px;
         }
@@ -341,7 +341,7 @@ export default function ResultDisplay({ result }) {
         .rd-heat-idx {
           font-family: 'Share Tech Mono', monospace;
           font-size: 9px;
-          color: rgba(255,255,255,0.2);
+          color: rgba(255,255,255,0.6);
           text-align: right;
           letter-spacing: 1px;
         }
@@ -362,7 +362,7 @@ export default function ResultDisplay({ result }) {
         .rd-heat-val {
           font-family: 'Share Tech Mono', monospace;
           font-size: 10px;
-          color: rgba(255,255,255,0.35);
+          color: rgba(255,255,255,0.81);
           text-align: right;
           letter-spacing: 1px;
         }

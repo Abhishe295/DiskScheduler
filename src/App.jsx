@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Navbar from "./components/Navbar";
 import RequestInput from "./components/RequestInput";
 import AlgorithmSelector from "./components/AlgorithmSelector";
@@ -13,24 +13,24 @@ import { cscan } from "./algorithms/cscan";
 
 function ParticleField() {
   return (
-    <svg style={{ position:"fixed",inset:0,width:"100%",height:"100%",pointerEvents:"none",zIndex:0,opacity:0.35 }}>
+    <svg style={{ position: "fixed", inset: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 0, opacity: 0.35 }}>
       <defs>
         <radialGradient id="pg1" cx="20%" cy="20%" r="50%">
-          <stop offset="0%" stopColor="#00f5ff" stopOpacity="0.12"/>
-          <stop offset="100%" stopColor="transparent" stopOpacity="0"/>
+          <stop offset="0%" stopColor="#00f5ff" stopOpacity="0.12" />
+          <stop offset="100%" stopColor="transparent" stopOpacity="0" />
         </radialGradient>
         <radialGradient id="pg2" cx="80%" cy="70%" r="50%">
-          <stop offset="0%" stopColor="#8338ec" stopOpacity="0.1"/>
-          <stop offset="100%" stopColor="transparent" stopOpacity="0"/>
+          <stop offset="0%" stopColor="#8338ec" stopOpacity="0.1" />
+          <stop offset="100%" stopColor="transparent" stopOpacity="0" />
         </radialGradient>
         <radialGradient id="pg3" cx="60%" cy="10%" r="35%">
-          <stop offset="0%" stopColor="#ff006e" stopOpacity="0.07"/>
-          <stop offset="100%" stopColor="transparent" stopOpacity="0"/>
+          <stop offset="0%" stopColor="#ff006e" stopOpacity="0.07" />
+          <stop offset="100%" stopColor="transparent" stopOpacity="0" />
         </radialGradient>
       </defs>
-      <rect width="100%" height="100%" fill="url(#pg1)"/>
-      <rect width="100%" height="100%" fill="url(#pg2)"/>
-      <rect width="100%" height="100%" fill="url(#pg3)"/>
+      <rect width="100%" height="100%" fill="url(#pg1)" />
+      <rect width="100%" height="100%" fill="url(#pg2)" />
+      <rect width="100%" height="100%" fill="url(#pg3)" />
     </svg>
   );
 }
@@ -38,45 +38,45 @@ function ParticleField() {
 function GridOverlay() {
   return (
     <div style={{
-      position:"fixed",inset:0,
-      backgroundImage:`linear-gradient(rgba(0,245,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.025) 1px,transparent 1px)`,
-      backgroundSize:"48px 48px",
-      pointerEvents:"none",zIndex:0,
-    }}/>
+      position: "fixed", inset: 0,
+      backgroundImage: `linear-gradient(rgba(0,245,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,245,255,0.025) 1px,transparent 1px)`,
+      backgroundSize: "48px 48px",
+      pointerEvents: "none", zIndex: 0,
+    }} />
   );
 }
 
 function SectionDivider({ label }) {
   return (
-    <div style={{ display:"flex",alignItems:"center",gap:12,marginBottom:16 }}>
-      <div style={{ width:5,height:5,borderRadius:"50%",background:"rgba(0,245,255,0.6)",boxShadow:"0 0 6px #00f5ff",flexShrink:0 }}/>
-      <span style={{ fontFamily:"'Share Tech Mono',monospace",fontSize:9,letterSpacing:"3px",color:"rgba(255,255,255,0.25)",textTransform:"uppercase",whiteSpace:"nowrap" }}>
+    <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
+      <div style={{ width: 5, height: 5, borderRadius: "50%", background: "rgba(0,245,255,0.6)", boxShadow: "0 0 6px #00f5ff", flexShrink: 0 }} />
+      <span style={{ fontFamily: "'Share Tech Mono',monospace", fontSize: 9, letterSpacing: "3px", color: "rgba(255,255,255,0.68)", textTransform: "uppercase", whiteSpace: "nowrap" }}>
         {label}
       </span>
-      <div style={{ flex:1,height:1,background:"linear-gradient(90deg,rgba(255,255,255,0.07),transparent)" }}/>
+      <div style={{ flex: 1, height: 1, background: "linear-gradient(90deg,rgba(255,255,255,0.07),transparent)" }} />
     </div>
   );
 }
 
-const ALGO_COLORS = { FCFS:"#00f5ff", SSTF:"#ff006e", SCAN:"#8338ec", CSCAN:"#fb5607" };
+const ALGO_COLORS = { FCFS: "#00f5ff", SSTF: "#ff006e", SCAN: "#8338ec", CSCAN: "#fb5607" };
 
 function TabBar({ tabs, active, onChange, algo }) {
   const accent = ALGO_COLORS[algo] || "#00f5ff";
   return (
     <div style={{
-      display:"flex", gap:2, marginBottom:16,
-      background:"rgba(5,8,15,0.85)", borderRadius:7, padding:3,
-      border:"1px solid rgba(255,255,255,0.06)", flexShrink:0,
+      display: "flex", gap: 2, marginBottom: 16,
+      background: "rgba(5,8,15,0.85)", borderRadius: 7, padding: 3,
+      border: "1px solid rgba(255,255,255,0.06)", flexShrink: 0,
     }}>
       {tabs.map(tab => {
         const isActive = active === tab.id;
         return (
           <button key={tab.id} onClick={() => onChange(tab.id)} style={{
-            flex:1, padding:"8px 0", borderRadius:5, border:"none",
+            flex: 1, padding: "8px 0", borderRadius: 5, border: "none",
             background: isActive ? "rgba(255,255,255,0.06)" : "transparent",
             color: isActive ? "#fff" : "rgba(255,255,255,0.28)",
-            fontFamily:"'Share Tech Mono',monospace", fontSize:10, letterSpacing:"2px",
-            textTransform:"uppercase", cursor:"pointer", transition:"all 0.2s ease",
+            fontFamily: "'Share Tech Mono',monospace", fontSize: 10, letterSpacing: "2px",
+            textTransform: "uppercase", cursor: "pointer", transition: "all 0.2s ease",
             borderBottom: isActive ? `2px solid ${accent}` : "2px solid transparent",
             boxShadow: isActive ? `0 2px 12px ${accent}25` : "none",
           }}>
@@ -91,40 +91,43 @@ function TabBar({ tabs, active, onChange, algo }) {
 function StatusStrip({ result, selectedAlgo, hasRun }) {
   const [tick, setTick] = useState(true);
   // Simple interval without useEffect to keep component small
-  setTimeout(() => {}, 0); // no-op
+  setTimeout(() => { }, 0); // no-op
   useState(() => {
     const id = setInterval(() => setTick(t => !t), 1000);
     return () => clearInterval(id);
   });
   return (
     <div style={{
-      position:"fixed", bottom:0, left:0, right:0, height:26,
-      background:"rgba(4,6,14,0.98)", borderTop:"1px solid rgba(255,255,255,0.05)",
-      display:"flex", alignItems:"center", padding:"0 18px", gap:18, zIndex:200,
-      fontFamily:"'Share Tech Mono',monospace", fontSize:10, letterSpacing:"1.5px",
-      color:"rgba(255,255,255,0.22)",
+      position: "fixed", bottom: 0, left: 0, right: 0, height: 26,
+      background: "rgba(4,6,14,0.98)", borderTop: "1px solid rgba(255,255,255,0.05)",
+      display: "flex", alignItems: "center", padding: "0 18px", gap: 18, zIndex: 200,
+      fontFamily: "'Share Tech Mono',monospace", fontSize: 10, letterSpacing: "1.5px",
+      color: "rgba(255,255,255,0.63)",
     }}>
       <span style={{ color: ALGO_COLORS[selectedAlgo] || "#00f5ff" }}>● {selectedAlgo}</span>
       <span>|</span>
       {hasRun && result
-        ? <><span>SEEK <span style={{color:"#fff",marginLeft:6}}>{result.seekTime}</span></span><span>|</span><span>STEPS <span style={{color:"#fff",marginLeft:6}}>{result.sequence.length - 1}</span></span></>
+        ? <><span>SEEK <span style={{ color: "#fff", marginLeft: 6 }}>{result.seekTime}</span></span><span>|</span><span>STEPS <span style={{ color: "#fff", marginLeft: 6 }}>{result.sequence.length - 1}</span></span></>
         : <span>AWAITING SIMULATION</span>
       }
-      <span style={{marginLeft:"auto"}}>OS-SIM v2.4.1</span>
+      <span style={{ marginLeft: "auto" }}>OS-SIM v2.4.1</span>
       <span>|</span>
-      <span style={{color:"rgba(0,245,255,0.45)"}}>{tick ? "■" : "□"} LIVE</span>
+      <span style={{ color: "rgba(0,245,255,0.91)" }}>{tick ? "■" : "□"} LIVE</span>
     </div>
   );
 }
 
 const TABS = [
-  { id:"result",     label:"Result"   },
-  { id:"chart",      label:"Chart"    },
-  { id:"comparison", label:"Compare"  },
+  { id: "result", label: "Result" },
+  { id: "chart", label: "Chart" },
+  { id: "comparison", label: "Compare" },
 ];
 
 export default function App() {
   const [selectedAlgo, setSelectedAlgo] = useState("FCFS");
+  const algoRef = useRef("FCFS");
+  const requestInputRef = useRef(null);
+
   const [result, setResult]             = useState(null);
   const [comparison, setComparison]     = useState({});
   const [hasRun, setHasRun]             = useState(false);
@@ -133,7 +136,7 @@ export default function App() {
 
   const handleRun = (reqs, headPos, diskSize, direction) => {
     let res;
-    switch (selectedAlgo) {
+    switch (algoRef.current) {
       case "FCFS":  res = fcfs(reqs, headPos); break;
       case "SSTF":  res = sstf(reqs, headPos); break;
       case "SCAN":  res = scan(reqs, headPos, diskSize, direction); break;
@@ -150,6 +153,14 @@ export default function App() {
       SCAN:  scan(reqs, headPos, diskSize, direction),
       CSCAN: cscan(reqs, headPos, diskSize, direction),
     });
+  };
+
+  const handleAlgoSelect = (algo) => {
+    setSelectedAlgo(algo);
+    algoRef.current = algo;
+    if (requestInputRef.current) {
+      requestInputRef.current.submitIfValid();
+    }
   };
 
   return (
@@ -229,7 +240,7 @@ export default function App() {
           font-family: 'Share Tech Mono', monospace;
           text-align: center;
           padding: 40px;
-          opacity: 0.42;
+          opacity: 0.9; /* Increased base brightness */
         }
         .empty-icon {
           font-size: 60px;
@@ -240,12 +251,12 @@ export default function App() {
           50%      { opacity:0.65; transform:scale(1.06) rotate(3deg); }
         }
         .empty-title {
-          font-size: 12px; letter-spacing:4px;
-          color:rgba(255,255,255,0.35); text-transform:uppercase;
+          font-size: 14px; letter-spacing:4px;
+          color: rgba(255,255,255,0.9); text-transform:uppercase;
         }
         .empty-sub {
-          font-size:10px; letter-spacing:2px;
-          color:rgba(255,255,255,0.16); line-height:2;
+          font-size: 12px; letter-spacing:2px;
+          color: rgba(255,255,255,0.7); line-height:2;
         }
         .empty-hint {
           display: flex; align-items: center; gap: 10px;
@@ -253,8 +264,8 @@ export default function App() {
           border: 1px solid rgba(0,245,255,0.12);
           border-radius: 4px;
           background: rgba(0,245,255,0.04);
-          font-size: 10px; letter-spacing:2px;
-          color: rgba(0,245,255,0.4);
+          font-size: 11px; letter-spacing:2px;
+          color: rgba(0,245,255,0.95);
           margin-top: 8px;
           animation: hint-blink 2s ease-in-out infinite;
         }
@@ -288,17 +299,17 @@ export default function App() {
       <div className="app-shell">
         <Navbar />
 
-        <div className="app-body" style={{ position:"relative" }}>
+        <div className="app-body" style={{ position: "relative" }}>
           <div className="vdivider" />
 
           {/* ── LEFT: Config ── */}
           <aside className="app-left">
             <SectionDivider label="01 · Parameters" />
-            <RequestInput onSubmit={handleRun} />
+            <RequestInput onSubmit={handleRun} ref={requestInputRef} />
 
             <div style={{ marginTop:20 }}>
               <SectionDivider label="02 · Algorithm" />
-              <AlgorithmSelector onSelect={setSelectedAlgo} />
+              <AlgorithmSelector onSelect={handleAlgoSelect} />
             </div>
           </aside>
 
@@ -309,7 +320,7 @@ export default function App() {
                 <div className="empty-icon">◎</div>
                 <div className="empty-title">No Simulation Running</div>
                 <div className="empty-sub">
-                  Set your disk queue and head position<br/>
+                  Set your disk queue and head position<br />
                   Choose an algorithm · Hit RUN
                 </div>
                 <div className="empty-hint">
@@ -317,7 +328,7 @@ export default function App() {
                 </div>
               </div>
             ) : (
-              <div key={runKey} className="results-in" style={{ height:"100%", display:"flex", flexDirection:"column" }}>
+              <div key={runKey} className="results-in" style={{ height: "100%", display: "flex", flexDirection: "column" }}>
                 <SectionDivider label={`03 · Output — ${selectedAlgo}`} />
 
                 <TabBar

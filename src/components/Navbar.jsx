@@ -128,7 +128,7 @@ export default function Navbar() {
           font-family: 'Share Tech Mono', monospace;
           font-size: 10px;
           letter-spacing: 2px;
-          color: rgba(0,245,255,0.7);
+          color: rgba(0,245,255,1.0);
           text-transform: uppercase;
         }
 
@@ -142,7 +142,7 @@ export default function Navbar() {
           font-family: 'Share Tech Mono', monospace;
           font-size: 10px;
           letter-spacing: 1px;
-          color: rgba(255,255,255,0.18);
+          color: rgba(255,255,255,0.58);
         }
 
         /* Center: title */
@@ -194,7 +194,7 @@ export default function Navbar() {
           font-family: 'Share Tech Mono', monospace;
           font-size: 9px;
           letter-spacing: 3px;
-          color: rgba(255,255,255,0.2);
+          color: rgba(255,255,255,0.6);
           text-transform: uppercase;
           opacity: 0;
           transition: opacity 0.6s ease 0.2s;
@@ -232,7 +232,7 @@ export default function Navbar() {
           font-family: 'Share Tech Mono', monospace;
           font-size: 9px;
           letter-spacing: 2px;
-          color: rgba(255,255,255,0.2);
+          color: rgba(255,255,255,0.6);
           text-transform: uppercase;
         }
 
@@ -255,7 +255,7 @@ export default function Navbar() {
           font-family: 'Share Tech Mono', monospace;
           font-size: 13px;
           letter-spacing: 2px;
-          color: rgba(255,255,255,0.55);
+          color: rgba(255,255,255,1.0);
           min-width: 68px;
         }
 

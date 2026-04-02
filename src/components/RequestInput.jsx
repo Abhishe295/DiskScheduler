@@ -1,6 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, forwardRef, useImperativeHandle } from "react";
 
-export default function RequestInput({ onSubmit }) {
+const RequestInput = forwardRef(({ onSubmit }, ref) => {
   const [requests, setRequests] = useState("");
   const [head, setHead] = useState("");
   const [diskSize, setDiskSize] = useState(200);
@@ -45,6 +45,19 @@ export default function RequestInput({ onSubmit }) {
     }, 600);
   };
 
+  useImperativeHandle(ref, () => ({
+    submitIfValid: () => {
+      if (validate()) {
+        setFiring(true);
+        setTimeout(() => {
+          const parsed = requests.split(",").map((n) => Number(n.trim()));
+          onSubmit(parsed, Number(head), Number(diskSize), direction);
+          setFiring(false);
+        }, 600);
+      }
+    }
+  }));
+
   const parsedCount = requests
     ? requests.split(",").filter((n) => n.trim() !== "" && !isNaN(Number(n.trim()))).length
     : 0;
@@ -75,7 +88,7 @@ export default function RequestInput({ onSubmit }) {
           font-family: 'Share Tech Mono', monospace;
           font-size: 11px;
           letter-spacing: 3px;
-          color: rgba(255,255,255,0.35);
+          color: rgba(255,255,255,0.81);
           text-transform: uppercase;
           padding: 4px 10px;
           border: 1px solid rgba(255,255,255,0.1);
@@ -85,7 +98,7 @@ export default function RequestInput({ onSubmit }) {
         .ri-req-count {
           font-family: 'Share Tech Mono', monospace;
           font-size: 11px;
-          color: rgba(0,245,255,0.6);
+          color: rgba(0,245,255,1.0);
           letter-spacing: 2px;
           transition: color 0.3s;
         }
@@ -107,7 +120,7 @@ export default function RequestInput({ onSubmit }) {
           font-size: 9px;
           letter-spacing: 2.5px;
           text-transform: uppercase;
-          color: rgba(255,255,255,0.3);
+          color: rgba(255,255,255,0.75);
           margin-bottom: 6px;
           display: flex;
           align-items: center;
@@ -116,7 +129,7 @@ export default function RequestInput({ onSubmit }) {
         }
 
         .ri-field-label.focused {
-          color: rgba(0,245,255,0.7);
+          color: rgba(0,245,255,1.0);
         }
 
         .ri-field-label.errored {
@@ -156,13 +169,13 @@ export default function RequestInput({ onSubmit }) {
         }
 
         .ri-input::placeholder {
-          color: rgba(255,255,255,0.18);
+          color: rgba(255,255,255,0.58);
           font-size: 12px;
           letter-spacing: 1px;
         }
 
         .ri-input:focus {
-          border-color: rgba(0,245,255,0.5);
+          border-color: rgba(0,245,255,0.97);
           box-shadow: 0 0 0 1px rgba(0,245,255,0.15), 0 0 20px rgba(0,245,255,0.07);
         }
 
@@ -198,7 +211,7 @@ export default function RequestInput({ onSubmit }) {
           font-family: 'Share Tech Mono', monospace;
           font-size: 9px;
           letter-spacing: 2px;
-          color: rgba(255,255,255,0.2);
+          color: rgba(255,255,255,0.6);
           text-transform: uppercase;
           margin-bottom: 8px;
           display: block;
@@ -217,14 +230,14 @@ export default function RequestInput({ onSubmit }) {
           border: 1px solid rgba(255,255,255,0.1);
           border-radius: 3px;
           background: rgba(255,255,255,0.03);
-          color: rgba(255,255,255,0.35);
+          color: rgba(255,255,255,0.81);
           cursor: pointer;
           transition: all 0.2s ease;
           user-select: none;
         }
         .ri-preset-btn:hover {
-          border-color: rgba(0,245,255,0.35);
-          color: rgba(0,245,255,0.7);
+          border-color: rgba(0,245,255,0.81);
+          color: rgba(0,245,255,1.0);
           background: rgba(0,245,255,0.05);
           box-shadow: 0 0 10px rgba(0,245,255,0.08);
         }
@@ -241,7 +254,7 @@ export default function RequestInput({ onSubmit }) {
           border-radius: 6px;
           border: 1px solid rgba(255,255,255,0.08);
           background: rgba(5, 8, 15, 0.9);
-          color: rgba(255,255,255,0.3);
+          color: rgba(255,255,255,0.75);
           font-family: 'Share Tech Mono', monospace;
           font-size: 12px;
           letter-spacing: 2px;
@@ -300,7 +313,7 @@ export default function RequestInput({ onSubmit }) {
 
         .ri-submit:hover:not(:disabled) {
           background: rgba(0,245,255,0.12);
-          border-color: rgba(0,245,255,0.7);
+          border-color: rgba(0,245,255,1.0);
           box-shadow: 0 0 24px rgba(0,245,255,0.18), 0 0 48px rgba(0,245,255,0.08);
           color: #fff;
           text-shadow: 0 0 10px rgba(0,245,255,0.8);
@@ -404,7 +417,7 @@ export default function RequestInput({ onSubmit }) {
           border-radius: 3px;
           background: rgba(0,245,255,0.07);
           border: 1px solid rgba(0,245,255,0.2);
-          color: rgba(0,245,255,0.7);
+          color: rgba(0,245,255,1.0);
           letter-spacing: 1px;
           animation: chip-pop 0.2s ease;
         }
@@ -569,4 +582,6 @@ export default function RequestInput({ onSubmit }) {
       </div>
     </>
   );
-}
+});
+
+export default RequestInput;
