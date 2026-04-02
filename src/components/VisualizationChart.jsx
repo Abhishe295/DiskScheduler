@@ -5,10 +5,10 @@ const PADDING = { top: 32, right: 28, bottom: 48, left: 56 };
 const CHART_H = 300;
 
 const ALGO_COLORS = {
-  FCFS:  { stroke: "#00f5ff", glow: "rgba(0,245,255,0.5)",   fill: "rgba(0,245,255,0.08)"  },
-  SSTF:  { stroke: "#ff006e", glow: "rgba(255,0,110,0.5)",   fill: "rgba(255,0,110,0.08)"  },
-  SCAN:  { stroke: "#8338ec", glow: "rgba(131,56,236,0.5)",  fill: "rgba(131,56,236,0.08)" },
-  CSCAN: { stroke: "#fb5607", glow: "rgba(251,86,7,0.5)",    fill: "rgba(251,86,7,0.08)"   },
+  FCFS: { stroke: "#00f5ff", glow: "rgba(0,245,255,0.5)", fill: "rgba(0,245,255,0.08)" },
+  SSTF: { stroke: "#ff006e", glow: "rgba(255,0,110,0.5)", fill: "rgba(255,0,110,0.08)" },
+  SCAN: { stroke: "#8338ec", glow: "rgba(131,56,236,0.5)", fill: "rgba(131,56,236,0.08)" },
+  CSCAN: { stroke: "#fb5607", glow: "rgba(251,86,7,0.5)", fill: "rgba(251,86,7,0.08)" },
 };
 const DEFAULT_COLOR = { stroke: "#00f5ff", glow: "rgba(0,245,255,0.5)", fill: "rgba(0,245,255,0.08)" };
 
@@ -73,11 +73,11 @@ export default function VisualizationChart({ sequence, algorithm }) {
   const maxVal = Math.max(...sequence);
   const valRange = maxVal - minVal || 1;
 
-  const toX = (i) => PADDING.left + (i / Math.max(sequence.length - 1, 1)) * innerW;
-  const toY = (v) => PADDING.top + innerH - ((v - minVal) / valRange) * innerH;
+  const toX = (v) => PADDING.left + (valRange === 0 ? innerW / 2 : ((v - minVal) / valRange) * innerW);
+  const toY = (i) => PADDING.top + (i / Math.max(sequence.length - 1, 1)) * innerH;
 
   // Build SVG path
-  const points = sequence.map((v, i) => ({ x: toX(i), y: toY(v), v, i }));
+  const points = sequence.map((v, i) => ({ x: toX(v), y: toY(i), v, i }));
   const pathD = points
     .map((p, i) => `${i === 0 ? "M" : "L"} ${p.x.toFixed(2)} ${p.y.toFixed(2)}`)
     .join(" ");
@@ -85,23 +85,23 @@ export default function VisualizationChart({ sequence, algorithm }) {
   // Area fill path
   const areaD =
     pathD +
-    ` L ${points[points.length - 1].x.toFixed(2)} ${(PADDING.top + innerH).toFixed(2)}` +
-    ` L ${points[0].x.toFixed(2)} ${(PADDING.top + innerH).toFixed(2)} Z`;
+    ` L ${PADDING.left} ${points[points.length - 1].y.toFixed(2)}` +
+    ` L ${PADDING.left} ${points[0].y.toFixed(2)} Z`;
 
-  // Y grid lines
-  const yTicks = 5;
-  const yGridLines = Array.from({ length: yTicks + 1 }, (_, i) => {
-    const val = Math.round(minVal + (valRange * i) / yTicks);
-    const y = toY(val);
-    return { val, y };
+  // X grid lines (Cylinders)
+  const xGridTicks = 5;
+  const xGridLines = Array.from({ length: xGridTicks + 1 }, (_, i) => {
+    const val = Math.round(minVal + (valRange * i) / xGridTicks);
+    const x = toX(val);
+    return { val, x };
   });
 
-  // X ticks (show every nth)
-  const maxXTicks = Math.min(sequence.length, Math.floor(innerW / 48));
-  const xStep = Math.max(1, Math.round(sequence.length / maxXTicks));
-  const xTicks = sequence
+  // Y ticks (Steps, show every nth)
+  const maxYTicks = Math.min(sequence.length, Math.floor(innerH / 24));
+  const yStepSize = Math.max(1, Math.round(sequence.length / maxYTicks));
+  const yTicksArr = sequence
     .map((_, i) => i)
-    .filter((i) => i % xStep === 0 || i === sequence.length - 1);
+    .filter((i) => i % yStepSize === 0 || i === sequence.length - 1);
 
   // Path length for dash animation
   const dashLen = pathLen || 9999;
@@ -309,9 +309,9 @@ export default function VisualizationChart({ sequence, algorithm }) {
             onMouseLeave={() => setHovered(null)}
           >
             <defs>
-              <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor={color.stroke} stopOpacity="0.18" />
-                <stop offset="100%" stopColor={color.stroke} stopOpacity="0.01" />
+              <linearGradient id="areaGrad" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stopColor={color.stroke} stopOpacity="0.01" />
+                <stop offset="100%" stopColor={color.stroke} stopOpacity="0.18" />
               </linearGradient>
               <filter id="lineGlow">
                 <feGaussianBlur stdDeviation="3" result="blur" />
@@ -329,22 +329,22 @@ export default function VisualizationChart({ sequence, algorithm }) {
               </filter>
             </defs>
 
-            {/* Y grid lines */}
-            {yGridLines.map(({ val, y }, i) => (
+            {/* X grid lines (Cylinders) */}
+            {xGridLines.map(({ val, x }, i) => (
               <g key={i}>
                 <line
-                  x1={PADDING.left} y1={y}
-                  x2={PADDING.left + innerW} y2={y}
+                  x1={x} y1={PADDING.top}
+                  x2={x} y2={PADDING.top + innerH}
                   stroke="rgba(255,255,255,0.05)"
                   strokeWidth={1}
                   strokeDasharray="4 6"
                 />
                 <text
-                  x={PADDING.left - 10} y={y + 4}
+                  x={x} y={PADDING.top - 8}
                   fill="rgba(255,255,255,0.25)"
                   fontSize={10}
                   fontFamily="Share Tech Mono, monospace"
-                  textAnchor="end"
+                  textAnchor="middle"
                   letterSpacing={0}
                 >
                   {val}
@@ -352,21 +352,21 @@ export default function VisualizationChart({ sequence, algorithm }) {
               </g>
             ))}
 
-            {/* X axis ticks */}
-            {xTicks.map((i) => (
+            {/* Y axis ticks (Steps) */}
+            {yTicksArr.map((i) => (
               <g key={i}>
                 <line
-                  x1={toX(i)} y1={PADDING.top + innerH}
-                  x2={toX(i)} y2={PADDING.top + innerH + 5}
+                  x1={PADDING.left - 5} y1={toY(i)}
+                  x2={PADDING.left} y2={toY(i)}
                   stroke="rgba(255,255,255,0.15)"
                   strokeWidth={1}
                 />
                 <text
-                  x={toX(i)} y={PADDING.top + innerH + 18}
+                  x={PADDING.left - 10} y={toY(i) + 4}
                   fill="rgba(255,255,255,0.25)"
                   fontSize={10}
                   fontFamily="Share Tech Mono, monospace"
-                  textAnchor="middle"
+                  textAnchor="end"
                 >
                   {i}
                 </text>
@@ -376,14 +376,14 @@ export default function VisualizationChart({ sequence, algorithm }) {
             {/* Axis labels */}
             <text
               x={PADDING.left + innerW / 2}
-              y={CHART_H - 4}
+              y={10}
               fill="rgba(255,255,255,0.18)"
               fontSize={9}
               fontFamily="Share Tech Mono, monospace"
               textAnchor="middle"
               letterSpacing={2}
             >
-              STEP
+              CYLINDER
             </text>
             <text
               x={12}
@@ -395,17 +395,17 @@ export default function VisualizationChart({ sequence, algorithm }) {
               letterSpacing={2}
               transform={`rotate(-90, 12, ${PADDING.top + innerH / 2})`}
             >
-              CYLINDER
+              STEP
             </text>
 
-            {/* X axis line */}
+            {/* X axis line (Top) */}
             <line
-              x1={PADDING.left} y1={PADDING.top + innerH}
-              x2={PADDING.left + innerW} y2={PADDING.top + innerH}
+              x1={PADDING.left} y1={PADDING.top}
+              x2={PADDING.left + innerW} y2={PADDING.top}
               stroke="rgba(255,255,255,0.1)"
               strokeWidth={1}
             />
-            {/* Y axis line */}
+            {/* Y axis line (Left) */}
             <line
               x1={PADDING.left} y1={PADDING.top}
               x2={PADDING.left} y2={PADDING.top + innerH}
@@ -416,10 +416,10 @@ export default function VisualizationChart({ sequence, algorithm }) {
             {/* Area fill — masked by progress */}
             <clipPath id="progressClip">
               <rect
-                x={PADDING.left}
-                y={0}
-                width={innerW * progress}
-                height={CHART_H}
+                x={0}
+                y={PADDING.top - 10}
+                width={width}
+                height={innerH * progress + 20}
               />
             </clipPath>
             <path
@@ -491,21 +491,21 @@ export default function VisualizationChart({ sequence, algorithm }) {
             {points.map((pt, i) => (
               <rect
                 key={i}
-                x={pt.x - (innerW / (sequence.length * 2))}
-                y={PADDING.top}
-                width={innerW / sequence.length}
-                height={innerH}
+                x={PADDING.left}
+                y={pt.y - (innerH / (sequence.length * 2))}
+                width={innerW}
+                height={innerH / sequence.length}
                 fill="transparent"
                 onMouseEnter={() => setHovered(i)}
               />
             ))}
 
-            {/* Hover vertical line */}
+            {/* Hover horizontal line */}
             {hoveredPt && (
               <g>
                 <line
-                  x1={hoveredPt.x} y1={PADDING.top}
-                  x2={hoveredPt.x} y2={PADDING.top + innerH}
+                  x1={PADDING.left} y1={hoveredPt.y}
+                  x2={PADDING.left + innerW} y2={hoveredPt.y}
                   stroke={color.stroke}
                   strokeWidth={1}
                   strokeOpacity={0.3}
@@ -566,9 +566,9 @@ export default function VisualizationChart({ sequence, algorithm }) {
         <div className="vc-footer">
           {[
             { label: "Total Seek", val: totalSeek, color: color.stroke },
-            { label: "Positions",  val: sequence.length, color: "#fff" },
-            { label: "Min Cyl",    val: Math.min(...sequence), color: "#00ff88" },
-            { label: "Max Cyl",    val: Math.max(...sequence), color: "rgba(255,100,100,0.9)" },
+            { label: "Positions", val: sequence.length, color: "#fff" },
+            { label: "Min Cyl", val: Math.min(...sequence), color: "#00ff88" },
+            { label: "Max Cyl", val: Math.max(...sequence), color: "rgba(255,100,100,0.9)" },
           ].map(({ label, val, color: c }) => (
             <div className="vc-stat" key={label}>
               <span className="vc-stat-label">{label}</span>
