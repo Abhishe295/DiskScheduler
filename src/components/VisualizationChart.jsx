@@ -143,7 +143,7 @@ export default function VisualizationChart({ sequence, algorithm }) {
           font-family: 'Share Tech Mono', monospace;
           font-size: 11px;
           letter-spacing: 3px;
-          color: rgba(255,255,255,0.35);
+          color: rgba(255,255,255,0.81);
           text-transform: uppercase;
           padding: 4px 10px;
           border: 1px solid rgba(255,255,255,0.1);
@@ -204,7 +204,7 @@ export default function VisualizationChart({ sequence, algorithm }) {
           transition: opacity 0.15s;
         }
 
-        .vc-tt-step { color: rgba(255,255,255,0.35); margin-bottom: 2px; }
+        .vc-tt-step { color: rgba(255,255,255,0.81); margin-bottom: 2px; }
         .vc-tt-val  { font-size: 16px; font-weight: 700; }
 
         /* Footer stats */
@@ -225,7 +225,7 @@ export default function VisualizationChart({ sequence, algorithm }) {
           font-family: 'Share Tech Mono', monospace;
           font-size: 9px;
           letter-spacing: 2px;
-          color: rgba(255,255,255,0.22);
+          color: rgba(255,255,255,0.63);
           text-transform: uppercase;
           display: block;
           margin-bottom: 5px;

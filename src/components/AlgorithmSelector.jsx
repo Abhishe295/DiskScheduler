@@ -86,7 +86,7 @@ export default function AlgorithmSelector({ onSelect }) {
           font-family: 'Share Tech Mono', monospace;
           font-size: 11px;
           letter-spacing: 3px;
-          color: rgba(255,255,255,0.35);
+          color: rgba(255,255,255,0.81);
           text-transform: uppercase;
           padding: 4px 10px;
           border: 1px solid rgba(255,255,255,0.1);
@@ -164,7 +164,7 @@ export default function AlgorithmSelector({ onSelect }) {
         }
 
         .algo-card:hover:not(.active) {
-          border-color: rgba(255,255,255,0.18);
+          border-color: rgba(255,255,255,0.58);
           transform: translateY(-1px);
         }
 
@@ -233,7 +233,7 @@ export default function AlgorithmSelector({ onSelect }) {
           font-size: 11px;
           font-weight: 600;
           letter-spacing: 1px;
-          color: rgba(255,255,255,0.35);
+          color: rgba(255,255,255,0.81);
           display: block;
           text-transform: uppercase;
           margin-bottom: 8px;
@@ -241,13 +241,13 @@ export default function AlgorithmSelector({ onSelect }) {
 
         .algo-desc {
           font-size: 13px;
-          color: rgba(255,255,255,0.5);
+          color: rgba(255,255,255,0.97);
           line-height: 1.4;
           font-weight: 400;
         }
 
         .algo-card.active .algo-desc {
-          color: rgba(255,255,255,0.7);
+          color: rgba(255,255,255,1.0);
         }
 
         .algo-active-dot {
@@ -294,7 +294,7 @@ export default function AlgorithmSelector({ onSelect }) {
           font-family: 'Share Tech Mono', monospace;
           font-size: 10px;
           letter-spacing: 2px;
-          color: rgba(255,255,255,0.3);
+          color: rgba(255,255,255,0.75);
           text-transform: uppercase;
           display: block;
           margin-bottom: 3px;
@@ -310,7 +310,7 @@ export default function AlgorithmSelector({ onSelect }) {
         .algo-status-arrow {
           font-family: 'Share Tech Mono', monospace;
           font-size: 11px;
-          color: rgba(255,255,255,0.2);
+          color: rgba(255,255,255,0.6);
           letter-spacing: 1px;
         }
 

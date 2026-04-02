@@ -94,7 +94,7 @@ export default function ComparisonTable({ data }) {
           font-family: 'Share Tech Mono', monospace;
           font-size: 11px;
           letter-spacing: 3px;
-          color: rgba(255,255,255,0.35);
+          color: rgba(255,255,255,0.81);
           text-transform: uppercase;
           padding: 4px 10px;
           border: 1px solid rgba(255,255,255,0.1);
@@ -104,7 +104,7 @@ export default function ComparisonTable({ data }) {
         .ct-count {
           font-family: 'Share Tech Mono', monospace;
           font-size: 11px;
-          color: rgba(255,255,255,0.2);
+          color: rgba(255,255,255,0.6);
           letter-spacing: 1px;
         }
 
@@ -145,7 +145,7 @@ export default function ComparisonTable({ data }) {
           font-family: 'Share Tech Mono', monospace;
           font-size: 9px;
           letter-spacing: 2px;
-          color: rgba(255,255,255,0.25);
+          color: rgba(255,255,255,0.67);
           text-transform: uppercase;
           align-self: center;
         }
@@ -200,7 +200,7 @@ export default function ComparisonTable({ data }) {
         .ct-rank {
           font-family: 'Share Tech Mono', monospace;
           font-size: 12px;
-          color: rgba(255,255,255,0.2);
+          color: rgba(255,255,255,0.6);
         }
         .ct-rank.rank-1 {
           font-size: 14px;
@@ -229,7 +229,7 @@ export default function ComparisonTable({ data }) {
 
         .ct-algo-short {
           font-size: 11px;
-          color: rgba(255,255,255,0.3);
+          color: rgba(255,255,255,0.75);
           letter-spacing: 0.5px;
           font-weight: 400;
         }
@@ -250,7 +250,7 @@ export default function ComparisonTable({ data }) {
         .ct-seek-unit {
           font-family: 'Share Tech Mono', monospace;
           font-size: 9px;
-          color: rgba(255,255,255,0.2);
+          color: rgba(255,255,255,0.6);
           letter-spacing: 1px;
           text-transform: uppercase;
         }
@@ -281,7 +281,7 @@ export default function ComparisonTable({ data }) {
           font-size: 10px;
           letter-spacing: 1px;
           text-align: right;
-          color: rgba(255,255,255,0.25);
+          color: rgba(255,255,255,0.67);
         }
 
         .ct-delta.best {
@@ -313,7 +313,7 @@ export default function ComparisonTable({ data }) {
           font-family: 'Share Tech Mono', monospace;
           font-size: 9px;
           letter-spacing: 2px;
-          color: rgba(255,255,255,0.25);
+          color: rgba(255,255,255,0.67);
           text-transform: uppercase;
           display: block;
           margin-bottom: 6px;
@@ -329,7 +329,7 @@ export default function ComparisonTable({ data }) {
 
         .ct-stat-sub {
           font-size: 11px;
-          color: rgba(255,255,255,0.3);
+          color: rgba(255,255,255,0.75);
           margin-top: 2px;
           display: block;
         }

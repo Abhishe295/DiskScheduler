@@ -50,7 +50,7 @@ function SectionDivider({ label }) {
   return (
     <div style={{ display:"flex",alignItems:"center",gap:12,marginBottom:16 }}>
       <div style={{ width:5,height:5,borderRadius:"50%",background:"rgba(0,245,255,0.6)",boxShadow:"0 0 6px #00f5ff",flexShrink:0 }}/>
-      <span style={{ fontFamily:"'Share Tech Mono',monospace",fontSize:9,letterSpacing:"3px",color:"rgba(255,255,255,0.25)",textTransform:"uppercase",whiteSpace:"nowrap" }}>
+      <span style={{ fontFamily:"'Share Tech Mono',monospace",fontSize:9,letterSpacing:"3px",color: "rgba(255,255,255,0.68)",textTransform:"uppercase",whiteSpace:"nowrap" }}>
         {label}
       </span>
       <div style={{ flex:1,height:1,background:"linear-gradient(90deg,rgba(255,255,255,0.07),transparent)" }}/>
@@ -102,7 +102,7 @@ function StatusStrip({ result, selectedAlgo, hasRun }) {
       background:"rgba(4,6,14,0.98)", borderTop:"1px solid rgba(255,255,255,0.05)",
       display:"flex", alignItems:"center", padding:"0 18px", gap:18, zIndex:200,
       fontFamily:"'Share Tech Mono',monospace", fontSize:10, letterSpacing:"1.5px",
-      color:"rgba(255,255,255,0.22)",
+      color: "rgba(255,255,255,0.63)",
     }}>
       <span style={{ color: ALGO_COLORS[selectedAlgo] || "#00f5ff" }}>● {selectedAlgo}</span>
       <span>|</span>
@@ -112,7 +112,7 @@ function StatusStrip({ result, selectedAlgo, hasRun }) {
       }
       <span style={{marginLeft:"auto"}}>OS-SIM v2.4.1</span>
       <span>|</span>
-      <span style={{color:"rgba(0,245,255,0.45)"}}>{tick ? "■" : "□"} LIVE</span>
+      <span style={{color: "rgba(0,245,255,0.91)"}}>{tick ? "■" : "□"} LIVE</span>
     </div>
   );
 }
@@ -229,7 +229,7 @@ export default function App() {
           font-family: 'Share Tech Mono', monospace;
           text-align: center;
           padding: 40px;
-          opacity: 0.42;
+          opacity: 0.85; /* Increased base brightness */
         }
         .empty-icon {
           font-size: 60px;
@@ -240,12 +240,12 @@ export default function App() {
           50%      { opacity:0.65; transform:scale(1.06) rotate(3deg); }
         }
         .empty-title {
-          font-size: 12px; letter-spacing:4px;
-          color:rgba(255,255,255,0.35); text-transform:uppercase;
+          font-size: 14px; letter-spacing:4px;
+          color: rgba(255,255,255,0.9); text-transform:uppercase;
         }
         .empty-sub {
-          font-size:10px; letter-spacing:2px;
-          color:rgba(255,255,255,0.16); line-height:2;
+          font-size: 12px; letter-spacing:2px;
+          color: rgba(255,255,255,0.7); line-height:2;
         }
         .empty-hint {
           display: flex; align-items: center; gap: 10px;
@@ -253,8 +253,8 @@ export default function App() {
           border: 1px solid rgba(0,245,255,0.12);
           border-radius: 4px;
           background: rgba(0,245,255,0.04);
-          font-size: 10px; letter-spacing:2px;
-          color: rgba(0,245,255,0.4);
+          font-size: 11px; letter-spacing:2px;
+          color: rgba(0,245,255,0.95);
           margin-top: 8px;
           animation: hint-blink 2s ease-in-out infinite;
         }
