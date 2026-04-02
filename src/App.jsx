@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Navbar from "./components/Navbar";
 import RequestInput from "./components/RequestInput";
 import AlgorithmSelector from "./components/AlgorithmSelector";
@@ -125,31 +125,42 @@ const TABS = [
 
 export default function App() {
   const [selectedAlgo, setSelectedAlgo] = useState("FCFS");
-  const [result, setResult] = useState(null);
-  const [comparison, setComparison] = useState({});
-  const [hasRun, setHasRun] = useState(false);
-  const [activeTab, setActiveTab] = useState("result");
-  const [runKey, setRunKey] = useState(0);
+  const algoRef = useRef("FCFS");
+  const requestInputRef = useRef(null);
+
+  const [result, setResult]             = useState(null);
+  const [comparison, setComparison]     = useState({});
+  const [hasRun, setHasRun]             = useState(false);
+  const [activeTab, setActiveTab]       = useState("result");
+  const [runKey, setRunKey]             = useState(0);
 
   const handleRun = (reqs, headPos, diskSize, direction) => {
     let res;
-    switch (selectedAlgo) {
-      case "FCFS": res = fcfs(reqs, headPos); break;
-      case "SSTF": res = sstf(reqs, headPos); break;
-      case "SCAN": res = scan(reqs, headPos, diskSize, direction); break;
+    switch (algoRef.current) {
+      case "FCFS":  res = fcfs(reqs, headPos); break;
+      case "SSTF":  res = sstf(reqs, headPos); break;
+      case "SCAN":  res = scan(reqs, headPos, diskSize, direction); break;
       case "CSCAN": res = cscan(reqs, headPos, diskSize, direction); break;
-      default: res = null;
+      default:      res = null;
     }
     setResult(res);
     setHasRun(true);
     setActiveTab("result");
     setRunKey(k => k + 1);
     setComparison({
-      FCFS: fcfs(reqs, headPos),
-      SSTF: sstf(reqs, headPos),
-      SCAN: scan(reqs, headPos, diskSize, direction),
+      FCFS:  fcfs(reqs, headPos),
+      SSTF:  sstf(reqs, headPos),
+      SCAN:  scan(reqs, headPos, diskSize, direction),
       CSCAN: cscan(reqs, headPos, diskSize, direction),
     });
+  };
+
+  const handleAlgoSelect = (algo) => {
+    setSelectedAlgo(algo);
+    algoRef.current = algo;
+    if (requestInputRef.current) {
+      requestInputRef.current.submitIfValid();
+    }
   };
 
   return (
@@ -294,11 +305,11 @@ export default function App() {
           {/* ── LEFT: Config ── */}
           <aside className="app-left">
             <SectionDivider label="01 · Parameters" />
-            <RequestInput onSubmit={handleRun} />
+            <RequestInput onSubmit={handleRun} ref={requestInputRef} />
 
-            <div style={{ marginTop: 20 }}>
+            <div style={{ marginTop:20 }}>
               <SectionDivider label="02 · Algorithm" />
-              <AlgorithmSelector onSelect={setSelectedAlgo} />
+              <AlgorithmSelector onSelect={handleAlgoSelect} />
             </div>
           </aside>
 

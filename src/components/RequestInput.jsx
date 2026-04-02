@@ -1,6 +1,6 @@
-import { useState, useRef } from "react";
+import { useState, forwardRef, useImperativeHandle } from "react";
 
-export default function RequestInput({ onSubmit }) {
+const RequestInput = forwardRef(({ onSubmit }, ref) => {
   const [requests, setRequests] = useState("");
   const [head, setHead] = useState("");
   const [diskSize, setDiskSize] = useState(200);
@@ -44,6 +44,19 @@ export default function RequestInput({ onSubmit }) {
       setFiring(false);
     }, 600);
   };
+
+  useImperativeHandle(ref, () => ({
+    submitIfValid: () => {
+      if (validate()) {
+        setFiring(true);
+        setTimeout(() => {
+          const parsed = requests.split(",").map((n) => Number(n.trim()));
+          onSubmit(parsed, Number(head), Number(diskSize), direction);
+          setFiring(false);
+        }, 600);
+      }
+    }
+  }));
 
   const parsedCount = requests
     ? requests.split(",").filter((n) => n.trim() !== "" && !isNaN(Number(n.trim()))).length
@@ -569,4 +582,6 @@ export default function RequestInput({ onSubmit }) {
       </div>
     </>
   );
-}
+});
+
+export default RequestInput;

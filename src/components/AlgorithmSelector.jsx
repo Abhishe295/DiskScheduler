@@ -44,9 +44,7 @@ export default function AlgorithmSelector({ onSelect }) {
   const [hovered, setHovered] = useState(null);
   const [animating, setAnimating] = useState(false);
 
-  useEffect(() => {
-    onSelect(selected);
-  }, []);
+  // removed onSelect(selected) on mount
 
   const handleSelect = (value) => {
     if (value === selected) return;
