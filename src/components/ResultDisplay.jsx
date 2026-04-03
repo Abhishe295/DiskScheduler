@@ -16,7 +16,7 @@ function AnimatedNumber({ target, duration = 1400 }) {
     };
     raf.current = requestAnimationFrame(step);
     return () => cancelAnimationFrame(raf.current);
-  }, [target]);
+  }, [target, duration]);
 
   return <>{display}</>;
 }
@@ -25,17 +25,30 @@ export default function ResultDisplay({ result }) {
   const [visible, setVisible] = useState(false);
   const [seqVisible, setSeqVisible] = useState([]);
   const [copied, setCopied] = useState(false);
+  const copyResetRef = useRef(null);
 
   useEffect(() => {
     if (!result) return;
-    setVisible(false);
-    setSeqVisible([]);
-    const t1 = setTimeout(() => setVisible(true), 60);
+
+    const timers = [];
+    timers.push(setTimeout(() => setVisible(true), 60));
+
     result.sequence.forEach((_, i) => {
-      setTimeout(() => setSeqVisible((prev) => [...prev, i]), 120 + i * 80);
+      timers.push(
+        setTimeout(() => setSeqVisible((prev) => [...prev, i]), 120 + i * 80)
+      );
     });
-    return () => clearTimeout(t1);
+
+    return () => {
+      timers.forEach((timer) => clearTimeout(timer));
+    };
   }, [result]);
+
+  useEffect(() => {
+    return () => {
+      if (copyResetRef.current) clearTimeout(copyResetRef.current);
+    };
+  }, []);
 
   if (!result) return null;
 
@@ -44,7 +57,8 @@ export default function ResultDisplay({ result }) {
   const handleCopy = () => {
     navigator.clipboard.writeText(sequence.join(" → "));
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    if (copyResetRef.current) clearTimeout(copyResetRef.current);
+    copyResetRef.current = setTimeout(() => setCopied(false), 2000);
   };
 
   // Compute per-step distances

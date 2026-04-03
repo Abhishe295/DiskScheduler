@@ -24,7 +24,7 @@ function AnimatedNumber({ target, duration = 1200 }) {
     };
     raf.current = requestAnimationFrame(step);
     return () => cancelAnimationFrame(raf.current);
-  }, [target]);
+  }, [target, duration]);
 
   return <span>{display}</span>;
 }
@@ -35,16 +35,22 @@ export default function ComparisonTable({ data }) {
 
   useEffect(() => {
     if (!data || Object.keys(data).length === 0) return;
-    setVisible(false);
-    setRowsVisible([]);
-    const t1 = setTimeout(() => setVisible(true), 50);
+
+    const timers = [];
+    timers.push(setTimeout(() => setVisible(true), 50));
+
     const entries = Object.entries(data);
     entries.forEach((_, i) => {
-      setTimeout(() => {
-        setRowsVisible((prev) => [...prev, i]);
-      }, 200 + i * 130);
+      timers.push(
+        setTimeout(() => {
+          setRowsVisible((prev) => [...prev, i]);
+        }, 200 + i * 130)
+      );
     });
-    return () => clearTimeout(t1);
+
+    return () => {
+      timers.forEach((timer) => clearTimeout(timer));
+    };
   }, [data]);
 
   if (!data || Object.keys(data).length === 0) return null;

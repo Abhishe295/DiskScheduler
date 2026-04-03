@@ -13,13 +13,17 @@ export function cscan(requests, head, diskSize = 200, direction = "right") {
       sequence.push(r);
     }
 
-    seekTime += Math.abs(diskSize - 1 - current);
-    current = diskSize - 1;
-    sequence.push(current);
+    if (current !== diskSize - 1) {
+      seekTime += Math.abs(diskSize - 1 - current);
+      current = diskSize - 1;
+      sequence.push(current);
+    }
 
     seekTime += diskSize - 1;
     current = 0;
-    sequence.push(current);
+    if (left.length === 0 || left[0] !== 0) {
+      sequence.push(current);
+    }
 
     for (let r of left) {
       seekTime += Math.abs(r - current);
@@ -27,21 +31,27 @@ export function cscan(requests, head, diskSize = 200, direction = "right") {
       sequence.push(r);
     }
   } else {
-    for (let r of left.reverse()) {
+    const leftDescending = [...left].reverse();
+    for (let r of leftDescending) {
       seekTime += Math.abs(r - current);
       current = r;
       sequence.push(r);
     }
 
-    seekTime += current;
-    current = 0;
-    sequence.push(current);
+    if (current !== 0) {
+      seekTime += current;
+      current = 0;
+      sequence.push(current);
+    }
 
     seekTime += diskSize - 1;
     current = diskSize - 1;
-    sequence.push(current);
+    const rightDescending = [...right].reverse();
+    if (rightDescending.length === 0 || rightDescending[0] !== diskSize - 1) {
+      sequence.push(current);
+    }
 
-    for (let r of right.reverse()) {
+    for (let r of rightDescending) {
       seekTime += Math.abs(r - current);
       current = r;
       sequence.push(r);
