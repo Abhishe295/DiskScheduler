@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
 
 const PADDING = { top: 32, right: 28, bottom: 48, left: 56 };
 const CHART_H = 300;
@@ -38,9 +37,7 @@ export default function VisualizationChart({ sequence, algorithm }) {
   // Animate line draw on new sequence
   useEffect(() => {
     if (!sequence) return;
-    setVisible(false);
-    setProgress(0);
-    setHovered(null);
+
     const t = setTimeout(() => setVisible(true), 80);
     return () => clearTimeout(t);
   }, [sequence]);
@@ -62,7 +59,7 @@ export default function VisualizationChart({ sequence, algorithm }) {
 
   useEffect(() => {
     if (pathRef.current) setPathLen(pathRef.current.getTotalLength());
-  }, [sequence, width, progress]);
+  }, [sequence, width]);
 
   if (!sequence) return null;
 
@@ -255,12 +252,7 @@ export default function VisualizationChart({ sequence, algorithm }) {
         }
       `}</style>
 
-      <motion.div
-        className="vc-root"
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45, ease: [0.23, 1, 0.32, 1] }}
-      >
+      <div className="vc-root">
         {/* Header */}
         <div className="vc-header">
           <span className="vc-label">// HEAD MOVEMENT</span>
@@ -576,7 +568,7 @@ export default function VisualizationChart({ sequence, algorithm }) {
             </div>
           ))}
         </div>
-      </motion.div>
+      </div>
     </>
   );
 }
