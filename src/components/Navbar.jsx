@@ -2,21 +2,21 @@ import { useState, useEffect } from "react";
 
 export default function Navbar() {
   const [time, setTime] = useState("");
-  const [tick, setTick] = useState(true);
-  const [bootDone, setBootDone] = useState(false);
   const [charIndex, setCharIndex] = useState(0);
 
   const title = "DISK SCHEDULING SIMULATOR";
+  const bootDone = charIndex >= title.length;
 
   useEffect(() => {
     // Typewriter boot effect
-    if (charIndex < title.length) {
-      const t = setTimeout(() => setCharIndex((c) => c + 1), 48);
-      return () => clearTimeout(t);
-    } else {
-      setBootDone(true);
-    }
-  }, [charIndex]);
+    if (charIndex >= title.length) return;
+
+    const t = setTimeout(() => {
+      setCharIndex((c) => Math.min(c + 1, title.length));
+    }, 48);
+
+    return () => clearTimeout(t);
+  }, [charIndex, title.length]);
 
   useEffect(() => {
     const update = () => {
@@ -25,7 +25,6 @@ export default function Navbar() {
       const m = String(now.getMinutes()).padStart(2, "0");
       const s = String(now.getSeconds()).padStart(2, "0");
       setTime(`${h}:${m}:${s}`);
-      setTick((t) => !t);
     };
     update();
     const id = setInterval(update, 1000);

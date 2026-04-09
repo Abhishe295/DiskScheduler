@@ -1,16 +1,76 @@
-# React + Vite
+# DiskScheduler
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+DiskScheduler is a React + Vite web app for visualizing and comparing classic disk scheduling algorithms used in operating systems.
 
-Currently, two official plugins are available:
+## Basics
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The app lets you:
 
-## React Compiler
+- Enter a request queue, head position, disk size, and head direction.
+- Run scheduling simulation for:
+  - FCFS (First Come First Serve)
+  - SSTF (Shortest Seek Time First)
+  - SCAN
+  - C-SCAN
+- View:
+  - Total seek time
+  - Access sequence
+  - Movement chart
+  - Comparison table across all algorithms
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Tech Stack
 
-## Expanding the ESLint configuration
+- React
+- Vite
+- ESLint
+- Framer Motion
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Installation
+
+### Prerequisites
+
+- Node.js 20+ (recommended)
+- npm
+
+### Setup
+
+```bash
+git clone git@github.com:yashwantB/DiskScheduler.git
+cd DiskScheduler
+npm install
+```
+
+### Run in Development
+
+```bash
+npm run dev
+```
+
+Vite will print a local URL (usually `http://localhost:5173`).
+
+## Available Scripts
+
+```bash
+npm run dev      # Start local dev server
+npm run build    # Create production build in dist/
+npm run preview  # Preview production build locally
+npm run lint     # Run ESLint checks
+```
+
+## How to Use
+
+1. Enter request queue values (comma-separated integers).
+2. Enter head position and disk size.
+3. Pick direction (`left` or `right`) for SCAN/C-SCAN behavior.
+4. Select algorithm.
+5. Click **Run Simulation**.
+6. Explore the Result, Chart, and Compare tabs.
+
+## Project Structure
+
+```text
+src/
+  algorithms/    # FCFS, SSTF, SCAN, C-SCAN logic
+  components/    # UI components
+  App.jsx        # Main app shell and flow
+```

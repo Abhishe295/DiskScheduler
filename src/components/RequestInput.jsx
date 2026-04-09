@@ -1,4 +1,4 @@
-import { useState, forwardRef, useImperativeHandle } from "react";
+import { useEffect, useRef, useState, forwardRef, useImperativeHandle } from "react";
 
 const RequestInput = forwardRef(({ onSubmit }, ref) => {
   const [requests, setRequests] = useState("");
@@ -9,6 +9,7 @@ const RequestInput = forwardRef(({ onSubmit }, ref) => {
   const [firing, setFiring] = useState(false);
   const [focusedField, setFocusedField] = useState(null);
   const [shake, setShake] = useState(false);
+  const timeoutRefs = useRef([]);
 
   const presets = [
     { label: "PRESET A", value: "98,183,37,122,14,124,65,67" },
@@ -16,31 +17,95 @@ const RequestInput = forwardRef(({ onSubmit }, ref) => {
     { label: "PRESET C", value: "176,79,34,60,92,11,41,114" },
   ];
 
+  const scheduleTimeout = (fn, delay) => {
+    const id = setTimeout(fn, delay);
+    timeoutRefs.current.push(id);
+    return id;
+  };
+
+  const parseInputs = () => {
+    const parsedRequests = requests
+      .split(",")
+      .map((n) => n.trim())
+      .filter((n) => n !== "")
+      .map((n) => Number(n));
+
+    return {
+      parsedRequests,
+      parsedHead: Number(head),
+      parsedDiskSize: Number(diskSize),
+    };
+  };
+
   const validate = () => {
     const newErrors = {};
+
+    const { parsedRequests, parsedHead, parsedDiskSize } = parseInputs();
+
     if (!requests.trim()) {
       newErrors.requests = "Queue required";
     } else {
-      const parsed = requests.split(",").map((n) => Number(n.trim()));
-      if (parsed.some(isNaN)) newErrors.requests = "Numbers only, comma-separated";
+      const rawParts = requests.split(",").map((n) => n.trim());
+      if (rawParts.some((n) => n === "")) {
+        newErrors.requests = "Use comma-separated numbers only";
+      } else if (parsedRequests.some((n) => Number.isNaN(n) || !Number.isInteger(n))) {
+        newErrors.requests = "Use integer cylinder values only";
+      }
     }
-    if (!head && head !== 0) newErrors.head = "Head position required";
-    else if (isNaN(Number(head))) newErrors.head = "Must be a number";
-    if (!diskSize) newErrors.diskSize = "Disk size required";
+
+    if (head === "") {
+      newErrors.head = "Head position required";
+    } else if (Number.isNaN(parsedHead) || !Number.isInteger(parsedHead)) {
+      newErrors.head = "Must be an integer";
+    }
+
+    if (diskSize === "") {
+      newErrors.diskSize = "Disk size required";
+    } else if (Number.isNaN(parsedDiskSize) || !Number.isInteger(parsedDiskSize)) {
+      newErrors.diskSize = "Must be an integer";
+    } else if (parsedDiskSize <= 0) {
+      newErrors.diskSize = "Must be greater than 0";
+    }
+
+    if (!newErrors.diskSize) {
+      if (!newErrors.head && (parsedHead < 0 || parsedHead >= parsedDiskSize)) {
+        newErrors.head = `Must be between 0 and ${parsedDiskSize - 1}`;
+      }
+
+      if (
+        !newErrors.requests &&
+        parsedRequests.some((value) => value < 0 || value >= parsedDiskSize)
+      ) {
+        newErrors.requests = `Requests must be between 0 and ${parsedDiskSize - 1}`;
+      }
+    }
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
+  const submitParsedInput = () => {
+    const { parsedRequests, parsedHead, parsedDiskSize } = parseInputs();
+    onSubmit(parsedRequests, parsedHead, parsedDiskSize, direction);
+  };
+
+  useEffect(() => {
+    return () => {
+      timeoutRefs.current.forEach((id) => clearTimeout(id));
+      timeoutRefs.current = [];
+    };
+  }, []);
+
   const handleSubmit = () => {
     if (!validate()) {
       setShake(true);
-      setTimeout(() => setShake(false), 500);
+      scheduleTimeout(() => setShake(false), 500);
       return;
     }
+
     setFiring(true);
-    setTimeout(() => {
-      const parsed = requests.split(",").map((n) => Number(n.trim()));
-      onSubmit(parsed, Number(head), Number(diskSize), direction);
+    scheduleTimeout(() => {
+      submitParsedInput();
       setFiring(false);
     }, 600);
   };
@@ -49,9 +114,8 @@ const RequestInput = forwardRef(({ onSubmit }, ref) => {
     submitIfValid: () => {
       if (validate()) {
         setFiring(true);
-        setTimeout(() => {
-          const parsed = requests.split(",").map((n) => Number(n.trim()));
-          onSubmit(parsed, Number(head), Number(diskSize), direction);
+        scheduleTimeout(() => {
+          submitParsedInput();
           setFiring(false);
         }, 600);
       }

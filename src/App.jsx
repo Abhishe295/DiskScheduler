@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Navbar from "./components/Navbar";
 import RequestInput from "./components/RequestInput";
 import AlgorithmSelector from "./components/AlgorithmSelector";
@@ -90,12 +90,12 @@ function TabBar({ tabs, active, onChange, algo }) {
 
 function StatusStrip({ result, selectedAlgo, hasRun }) {
   const [tick, setTick] = useState(true);
-  // Simple interval without useEffect to keep component small
-  setTimeout(() => { }, 0); // no-op
-  useState(() => {
+
+  useEffect(() => {
     const id = setInterval(() => setTick(t => !t), 1000);
     return () => clearInterval(id);
-  });
+  }, []);
+
   return (
     <div style={{
       position: "fixed", bottom: 0, left: 0, right: 0, height: 26,
