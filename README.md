@@ -35,7 +35,7 @@ The app lets you:
 ### Setup
 
 ```bash
-git clone git@github.com:yashwantB/DiskScheduler.git
+git clone git@github.com:Abhishe295/DiskScheduler.git
 cd DiskScheduler
 npm install
 ```
